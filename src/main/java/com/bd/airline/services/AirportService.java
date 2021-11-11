@@ -1,9 +1,9 @@
 package com.bd.airline.services;
 
-import com.bd.airline.model.*;
-
-import java.util.Date;
 import java.util.List;
+
+import com.bd.airline.model.Airplane;
+import com.bd.airline.model.Flight;
 
 public interface AirportService {
 

@@ -4,14 +4,15 @@ import java.util.Date;
 
 public class Traveler {
 
-//    private Long id;
-
     private String name;
 
     private String dni;
 
     private Date dateOfBirth;
 
+    
+    public Traveler() {}
+    
     public String getName() {
         return name;
     }

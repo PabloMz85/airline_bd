@@ -14,30 +14,47 @@ public class Airplane {
     @Column(name="id_airplane")
     private Long id;
 
-    @Column(name="mark", insertable = true, length = 50, nullable = false,
-            table = "airplane", updatable = true, unique = false)
+    @Column(
+    		name="mark", insertable = true, length = 50, nullable = false,
+            table = "airplane", updatable = true, unique = false
+    	)
     private String mark;
 
-    @Column(nullable = false)
+    @Column(
+    		nullable = false
+    	)
     private String model;
 
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(
+    		nullable = false, 
+    		updatable = false, 
+    		unique = true
+    	)
     private String numberOfRegistration;
 
     @Column
     private int yearsInService;
 
-    @Column(nullable = false)
+    @Column(
+    		nullable = false
+    	)
     private int numberOfSeats;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "airplane", fetch = FetchType.LAZY, cascade = {}, orphanRemoval = false)
+    @OneToMany(
+    		mappedBy = "airplane", 
+    		fetch = FetchType.LAZY, 
+    		cascade = {}, 
+    		orphanRemoval = false
+    	)
     private List<Flight> flights;
 
     @Version
     @Column(name = "version")
     private int version;
 
+    
+    
     public Airplane(){
     }
 

@@ -3,25 +3,61 @@ package com.bd.airline.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Reservation {
 
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_reservation")
     private Long id;
 
     private int numberOfReservation;
 
     private Date dateOfReservation;
 
+    @ElementCollection
     private List<Integer> numbersOfSeats;
 
     private boolean paid;
 
+    @ManyToOne(
+			fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL
+		)
     private User user;
 
+    @ManyToMany
+    @JoinTable(
+			name = "reservation_passenger", 
+			joinColumns = @JoinColumn(name = "passenger_id"), 
+			inverseJoinColumns = @JoinColumn(name = "reservation_id")
+		)
     private List<Passenger> passengers;
-
+    
+    @ManyToOne(
+    		fetch = FetchType.LAZY, 
+    		cascade = CascadeType.ALL
+    	)
     private Flight flight;
 
-    public Long getId() {
+        
+    public Reservation() {}
+    
+
+	public Long getId() {
         return id;
     }
 

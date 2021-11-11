@@ -1,11 +1,21 @@
 package com.bd.airline.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "flight")
@@ -28,24 +38,43 @@ public class Flight {
     @Column(nullable = false)
     private int reservedSeats;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {})
-    @JoinColumn(name = "id_airplane", nullable = false)
+    @ManyToOne(
+    		fetch = FetchType.EAGER, 
+    		cascade = {}
+    	)
+    @JoinColumn(
+    		name = "id_airplane", 
+    		nullable = false
+    	)
     private Airplane airplane;
 
-    @Transient //Esta anotacion indica que dicho atributo no se persiste. Se utiliza solo para este ejemplo.
+    @OneToMany(
+            mappedBy = "flight",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+        )
     private List<Reservation> reservations;
 
-    @Transient
+    @ManyToOne(
+			fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL
+		)
+    @JoinColumn(name = "id_route")
     private Route route;
 
-    @Transient
+    @ManyToOne(
+			fetch = FetchType.LAZY, 
+			cascade = CascadeType.ALL
+		)
+    @JoinColumn(name = "id_pilot")
     private Pilot pilot;
 
     @Version
     @Column(name = "version")
     private int version;
 
-    public Flight(){}
+    
+    public Flight() {}
 
     public Flight(long number, Date dateOfFlight, float weightLimit, Airplane airplane, Route route, Pilot pilot){
         this.number = number;
@@ -137,4 +166,12 @@ public class Flight {
     public void setVersion(int version) {
         this.version = version;
     }
+
+	@Override
+	public String toString() {
+		return "Flight [id=" + id + ", number=" + number + ", dateOfFlight=" + dateOfFlight + ", weightLimit="
+				+ weightLimit + ", reservedSeats=" + reservedSeats + ", airplane=" + airplane + ", reservations="
+				+ reservations + ", route=" + route + ", pilot=" + pilot + ", version=" + version + "]";
+	}
+    
 }

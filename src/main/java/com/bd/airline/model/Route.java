@@ -2,8 +2,21 @@ package com.bd.airline.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Route {
 
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_route")
     private Long id;
 
     private String startAirport;
@@ -18,8 +31,18 @@ public class Route {
 
     private float actualPrice;
 
+    @OneToMany(
+            mappedBy = "route",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+        )
     private List<Flight> flights;
 
+    @OneToMany(
+            mappedBy = "route",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+        )
     private List<HistoricalPrice> historicalPrices;
 
     public Route () {
